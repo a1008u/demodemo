@@ -1,6 +1,5 @@
 package com.example.algorithm.typeA
 
-import algorithm.typeA.Make
 import java.util.*
 
 class Mathematics {
