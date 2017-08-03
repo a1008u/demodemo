@@ -30,7 +30,7 @@ class HTUController{
     // 2.ルート---------------------------------------------------------
     @GetMapping
     internal fun MyDataList(HTUDataForm: HTUDataForm,
-                            mav: ModelAndView): ModelAndView { return mav.gotoTop(HTUDataForm) }
+                            mav: ModelAndView): ModelAndView = mav.gotoTop(HTUDataForm)
 
     // 3.検索時に利用---------------------------------------------------------
     @PostMapping(value = "operate_form")
@@ -74,28 +74,29 @@ class HTUController{
     }
 
     // ex.画面表示項目---------------------------------------------------
-    internal val RADIO_ITEMS_sql = Collections.unmodifiableMap(object : LinkedHashMap<String, String>() {
-        private val serialVersionUID = 1L
-
-            init {
-                put("create", "create")
-                put("read", "read")
-                put("update", "update")
-                put("delete", "delete")
+    internal val RADIO_ITEMS_sql: MutableMap<String, String>
+        get() = Collections.unmodifiableMap(object : LinkedHashMap<String, String>() {
+            private val serialVersionUID = 1L
+                init {
+                    put("create", "create")
+                    put("read", "read")
+                    put("update", "update")
+                    put("delete", "delete")
+                }
             }
-        }
-    )
+        )
 
-    internal val RADIO_ITEMS_jpa = Collections.unmodifiableMap(object : LinkedHashMap<String, String>() {
-        private val serialVersionUID = 1L
+    internal val RADIO_ITEMS_jpa: MutableMap<String, String>
+        get() = Collections.unmodifiableMap(object : LinkedHashMap<String, String>() {
+            private val serialVersionUID = 1L
 
-            init {
-                put("Repository", "Repository")
-                put("JPQL", "JPQL")
-                put("Criteria API", "Criteria API")
+                init {
+                    put("Repository", "Repository")
+                    put("JPQL", "JPQL")
+                    put("Criteria API", "Criteria API")
+                }
             }
-        }
-    )
+        )
 
     // ex.ModelAndViewの拡張--------------------------------------------------
     inline private fun ModelAndView.gotoTop(HTUDataForm: HTUDataForm): ModelAndView {
