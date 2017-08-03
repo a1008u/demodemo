@@ -38,6 +38,3 @@ class UserControllerMongo {
     fun users(): ModelAndView = ModelAndView("/user")
             .apply{addObject("users",userService?.run{ findAllUser()} ?: "nullやて")}
 }
-
-
-// class UserController @Autowired constructor(private val userService: UserService) {
