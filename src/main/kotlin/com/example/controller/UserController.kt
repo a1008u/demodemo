@@ -1,14 +1,16 @@
-package samples.controller
+package com.example.controller
 
 /**
  * Created by version1 on 2017/02/11.
  */
+import com.example.model.User2
+import com.example.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.servlet.ModelAndView
-import samples.model.User2
-import samples.service.UserService
+//import samples.model.User2
+//import samples.service.UserService
 
 
 @Controller

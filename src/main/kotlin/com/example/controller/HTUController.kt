@@ -1,6 +1,8 @@
 package com.example.controller
 
+
 import com.example.bean.HTUDataBean
+import com.example.form.HTUDataForm
 import com.example.service.HTUDataServiceFactory
 import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
@@ -10,8 +12,10 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.servlet.ModelAndView
-import com.example.form.HTUDataForm
 import org.springframework.web.bind.annotation.GetMapping
+//import samples.bean.HTUDataBean
+//import samples.form.HTUDataForm
+//import samples.service.HTUDataServiceFactory
 import java.util.*
 
 @Controller
@@ -21,20 +25,23 @@ class HTUController{
     internal var HTUDataServiceFactory: HTUDataServiceFactory? = null
 
     // 1.リクエスト時に必ず呼び出す(Formの初期化)----------------------------
-    @ModelAttribute(value = "htudataform")
+    @ModelAttribute(value = "form")
     internal fun setUphtudataform(): HTUDataForm {
         println("create HTUDataForm")
         return HTUDataForm()
     }
 
     // 2.ルート---------------------------------------------------------
-    @GetMapping
-    internal fun MyDataList(HTUDataForm: HTUDataForm,
-                            mav: ModelAndView): ModelAndView = mav.gotoTop(HTUDataForm)
+    @GetMapping("/htc")
+    internal fun MyDataList(@ModelAttribute(value = "form")HTUDataForm: HTUDataForm,
+                            mav: ModelAndView): ModelAndView {
+        mav.gotoTop(HTUDataForm)
+        return mav
+    }
 
     // 3.検索時に利用---------------------------------------------------------
     @PostMapping(value = "operate_form")
-    internal fun operate_form(@Validated @ModelAttribute("htudataform") HTUDataForm: HTUDataForm,
+    internal fun operate_form(@Validated @ModelAttribute("form") HTUDataForm: HTUDataForm,
                               result: BindingResult,
                               mav: ModelAndView): ModelAndView {
 
@@ -53,11 +60,12 @@ class HTUController{
         // Set Up
         val HTUDataBean = HTUDataBean()
         BeanUtils.copyProperties(HTUDataForm, HTUDataBean)
+        HTUDataBean.id = HTUDataForm.id.toInt()
 
         val HTUDataService = HTUDataServiceFactory?.run { isolate(HTUDataForm)}
         when (HTUDataForm.sql) {
 
-            "create" -> HTUDataService?.run{ create(HTUDataBean) }
+            "create" -> HTUDataService?.run{ createHtc(HTUDataBean) }
 
             "read" -> {
                 HTUDataForm.into(HTUDataService?.run{ findMany(HTUDataBean)})
@@ -70,7 +78,7 @@ class HTUController{
             "delete" -> HTUDataService?.run{ delete(HTUDataBean)}
         }
 
-        return ModelAndView("redirect:/")
+        return ModelAndView("redirect:/htc")
     }
 
     // ex.画面表示項目---------------------------------------------------
@@ -106,10 +114,12 @@ class HTUController{
     }
 
     inline private fun ModelAndView.topPage(HTUDataForm: HTUDataForm) {
-        addObject("htudataform", HTUDataForm)
+
+        // addObject("form", HTUDataForm)
+        addObject("htudatalist", HTUDataForm.htudatalist)
         addObject("radioItems_sql", RADIO_ITEMS_sql)
         addObject("radioItems_jpa", RADIO_ITEMS_jpa)
-        viewName = "MyData/MyDataList"
+        viewName = "MyDataList"
     }
 
     // ex.HTUDataFormの拡張---------------------------------------------------

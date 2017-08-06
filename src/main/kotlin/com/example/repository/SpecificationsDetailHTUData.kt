@@ -1,11 +1,14 @@
 package com.example.repository
 
+
 import com.example.bean.HTUDataBean
 import com.example.model.HTUData
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.data.jpa.domain.Specifications
 import org.springframework.stereotype.Repository
+//import samples.bean.HTUDataBean
+//import samples.model.HTUData
 
 @Repository
 class SpecificationsDetailHTUData{

@@ -11,7 +11,7 @@ import javax.persistence.*
  */
 @Entity
 @Table(name = "htudata")
-data class HTUData(@Id @GeneratedValue var id: Int? = 0,
+data class HTUData(@Id @GeneratedValue var id: Int = 0,
                    @Column(nullable = false) var name: String = "",
-                   @Column var age: String? = "0",
+                   @Column var age: String = "0",
                    @Column var message: String = "どうかメッセージをください") {}

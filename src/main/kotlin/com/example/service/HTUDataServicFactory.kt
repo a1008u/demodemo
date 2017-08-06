@@ -1,10 +1,12 @@
 package com.example.service
 
-import org.springframework.beans.factory.annotation.Autowired
-import samples.service.*
 import com.example.form.HTUDataForm
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
+//import samples.form.HTUDataForm
 
-public class HTUDataServiceFactory {
+@Service
+class HTUDataServiceFactory {
 
     @Autowired
     private val HTUDataServiceRepository : HTUDataServiceRepository? = null

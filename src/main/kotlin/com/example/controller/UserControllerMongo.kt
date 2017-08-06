@@ -1,15 +1,17 @@
-package samples.controller
+package com.example.controller
 
 /**
  * Created by version1 on 2017/02/11.
  */
 
+import com.example.model.User
+import com.example.service.UserServiceMongo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.servlet.ModelAndView
-import samples.model.User
-import samples.service.UserServiceMongo
+//import samples.model.User
+//import samples.service.UserServiceMongo
 
 
 @Controller
@@ -18,7 +20,7 @@ class UserControllerMongo {
     @Autowired
     private val userService: UserServiceMongo? = null
 
-    @RequestMapping("/")
+    @RequestMapping("/1")
     fun root(): ModelAndView{
 
         userService?.run{

@@ -1,13 +1,15 @@
-package samples.service
+package com.example.service
 
 /**
  * Created by version1 on 2017/02/11.
  */
 
+import com.example.model.User2
+import com.example.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import samples.model.User2
-import samples.repository.UserRepository
+//import samples.model.User2
+//import samples.repository.UserRepository
 
 /**
  * DBからのデータ取得と加工を行う.

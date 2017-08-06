@@ -1,5 +1,6 @@
 package com.example.bean
 
+import javax.annotation.sql.DataSourceDefinition
 import javax.persistence.*
 
 /**
@@ -9,8 +10,8 @@ import javax.persistence.*
  * @param age 年齢
  * @param message メッセージ
  */
-@Entity
-data class HTUDataBean(var id: Int? = 0,
+data class HTUDataBean(var id: Int = 0,
                    var name: String = "",
-                   var age: String? = "0",
-                   var message: String = "どうかメッセージをください") {}
+                   var age: String = "",
+                   var message: String = "どうかメッセージをください") {
+}

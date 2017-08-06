@@ -2,14 +2,17 @@ package com.example.service
 
 import com.example.bean.HTUDataBean
 
-public abstract class HTUDataService {
+//import samples.bean.HTUDataBean
+
+
+abstract class HTUDataService {
 
     // 【Crud】--------------------------------------------
     /**
      * 新規作成
      * @param HTUDataaBean Veiw上のデータ
      */
-    abstract fun create(HTUDataBean: HTUDataBean) :Unit
+    abstract fun createHtc(HTUDataBean: HTUDataBean) :Unit
 
 
     // 【cRud】--------------------------------------------
@@ -19,7 +22,7 @@ public abstract class HTUDataService {
      * *
      * @return MyDataBean Veiwに表示する検索結果
      */
-    abstract fun findById(MyDataBean: HTUDataBean): HTUDataBean
+    abstract fun findById(HTUDataBean: HTUDataBean): MutableList<HTUDataBean>
 
     /**
      * 全件検索

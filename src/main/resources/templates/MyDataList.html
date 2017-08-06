@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<!-- Thymeleafのth属性を使うための名前空間を指定 -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>HowToUseJPA</title>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+</head>
+<body>
+<div class="">
+
+	<!-- ==============Header============== -->
+    <!-- TODO: make Header-->
+    <!--<header th:replace="Include/Header :: Header"></header> -->
+    <!-- ==============Header============== -->
+    
+    <!-- ==============Contents============== -->
+    <!-- ||||||||||||||Contents①|||||||||||| -->
+    <form th:action="@{/operate_form}" th:object="${form}" class="form" method="post">
+                 
+        <h2>MyData</h2>    
+        
+        <section class="flex-container" th:classappend="${#fields.hasErrors('jpa')}? 'has-error has-feedback'">
+            <label for="jpa" class="jpaTitle Balloon"><abbr title="required">*</abbr>JPA</label>
+        	<div class="radio" >
+        	   <p th:each="item : ${radioItems_jpa}">
+        	        <input type="radio"  name="jpa" autocomplete="off" th:value="${item.value}" th:field="*{jpa}" />
+                    <label   class="jpa1" th:for="${#ids.prev('jpa')}" th:text="${item.key}">Repository1</label>
+                </p>
+            </div>
+            <span th:if="${#fields.hasErrors('jpa')}" th:errors="*{jpa}" th:errorclass="err">error!</span>
+        </section>
+        
+        <section class="flex-container" th:classappend="${#fields.hasErrors('sql')}? 'has-error has-feedback'">
+            <label for="sql" class="sqlTitle Balloon"><abbr title="required">*</abbr>SQL</label>
+            <div class="crud">
+                <select class="sql" name="sql">                  
+                	<option th:each="item : ${radioItems_sql}" th:value="${item.value}" th:text="${item.key}" th:selected="${item.value} == *{sql}">select</option>
+                </select>
+            </div>
+        	<span th:if="${#fields.hasErrors('sql')}" th:errors="*{sql}" th:errorclass="err">error!</span>
+        </section>
+
+        <section class="flex-container">
+            <div class="divId" th:classappend="${#fields.hasErrors('id')}? 'has-error has-feedback'">
+                <div class="textContainer">
+                    <label for="id" class="controlLabel a1">id</label>
+                    <input type="text" id="id" name="id" th:field="*{id}" class="formText" value="テニス"/>
+                </div>
+                <div th:if="${#fields.hasErrors('id')}" th:errors="*{id}" th:errorclass="err"></div>
+            </div>
+
+            <div class="divName" th:classappend="${#fields.hasErrors('name')}? 'has-error has-feedback'">
+                <div class="textContainer">
+                    <label for="name" class="controlLabel">Name</label>
+                    <input type="text" id="name" name="name" th:field="*{name}" class="formText" th:value="*{name}" />
+                </div>
+                <div th:if="${#fields.hasErrors('Name')}" th:errors="*{name}" th:errorclass="err"></div>
+            </div>
+
+            <div class="divAge" th:classappend="${#fields.hasErrors('age')}? 'has-error has-feedback'">
+                <div class="textContainer">
+                    <label for="age" class="controlLabel">Age</label>
+                    <input type="text" id="age" name="age" th:field="*{age}" class="formText" value="30"/>
+                </div>
+                <div th:if="${#fields.hasErrors('age')}" th:errors="*{age}" th:errorclass="err"></div>
+            </div>
+
+            <div class="divText" th:classappend="${#fields.hasErrors('message')}? 'has-error has-feedback'">
+                <div class="textContainer">
+                    <label for="message" class="controlLabel">Message</label>
+                    <input type="text" id="message" name="message" th:field="*{message}" class="formText" value="SE1"/>
+                </div>
+                <div th:if="${#fields.hasErrors('message')}" th:errors="*{message}" th:errorclass="err"></div>
+            </div>
+        </section>
+
+        
+        <div class="flex-container">
+            <button type="submit" class="btn btn-success">submit</button>
+        </div>
+    </form>
+    
+    <!-- ||||||||||||||Contents②|||||||||||| -->
+    
+    <section class="tableContainer">
+        <h2>一覧</h2>
+        <table class="Table" >
+            <thead class="Thead">
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody class="Tbody">
+                <tr id="show-modal" class ="tbodyTr" th:each="mydataBean: ${htudatalist}">
+                    <td id="userno" th:text="${mydataBean.id}">11</td>
+                    <td th:text="${mydataBean.name}">Akira</td>
+                    <td th:text="${mydataBean.age}" id="ExpensesCharge">21</td>
+                    <td id="userno" th:text="${mydataBean.message}">04/17(木)</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    <!-- ==============Contents============== -->
+    
+    <!-- ==============modal window============== -->
+	<!-- <div th:replace="Include/Modal :: Modal" class="menubar"></div> -->
+	<!-- ==============/modal window============== -->
+    
+</div>
+<script type="text/javascript" src="../static/js/test.js" th:src="@{/js/header.js}"></script>
+
+
+</body>
+</html>

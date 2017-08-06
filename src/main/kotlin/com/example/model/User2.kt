@@ -1,4 +1,4 @@
-package samples.model
+package com.example.model
 
 /**
  * Created by version1 on 2017/02/11.

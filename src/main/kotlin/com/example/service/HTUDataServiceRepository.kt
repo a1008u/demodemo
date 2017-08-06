@@ -1,22 +1,28 @@
-package samples.service
+package com.example.service
 
 /**
  * Created by version1 on 2017/02/11.
  */
 
-import com.example.repository.HTURepository
+
 import com.example.bean.HTUDataBean
 import com.example.model.HTUData
+import com.example.repository.HTURepository
 import com.example.repository.SpecificationsDetailHTUData
-import com.example.service.HTUDataService
 import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
+//import samples.bean.HTUDataBean
+//import samples.model.HTUData
+//import samples.repository.HTURepository
+//import samples.repository.SpecificationsDetailHTUData
 
 /**
  * DBからのデータ取得と加工を行う.
  */
 @Service
+@Transactional
 open class HTUDataServiceRepository : HTUDataService() {
 
     @Autowired
@@ -25,15 +31,14 @@ open class HTUDataServiceRepository : HTUDataService() {
     @Autowired
     private val SpecificationsDetailHTUData: SpecificationsDetailHTUData? = null
 
-
     /**
      * HTUDataの登録(Crud)
      * @param HTUDataBean
      */
-    override fun create(HTUDataBean: HTUDataBean): Unit {
+    override fun createHtc(HTUDataBean: HTUDataBean): Unit {
         val HTUData = HTUData()
         BeanUtils.copyProperties(HTUDataBean, HTUData)
-        htuRepository?.run{ create(HTUDataBean) }
+        htuRepository?.run{ saveAndFlush(HTUData) }
     }
 
     /**
@@ -41,10 +46,12 @@ open class HTUDataServiceRepository : HTUDataService() {
      * @param HTUDataBean
      * @return HTUDataBean
      */
-    override fun findById(HTUDataBean: HTUDataBean): HTUDataBean {
+    override fun findById(HTUDataBean: HTUDataBean): MutableList<HTUDataBean> {
         val HTUData = htuRepository?.run{ findByid(HTUDataBean.id) }
         HTUData?.let {  it -> BeanUtils.copyProperties(it, HTUDataBean) }
-        return HTUDataBean
+        val HTUDataBeanList = mutableListOf<HTUDataBean>()
+        HTUDataBeanList.add(HTUDataBean)
+        return HTUDataBeanList
     }
 
     /**
@@ -53,10 +60,14 @@ open class HTUDataServiceRepository : HTUDataService() {
      * @return HTUDataBeanList  MutableList<HTUDataBean>
      */
     override fun findAll(): MutableList<HTUDataBean> {
-        val HTUDataList = htuRepository?.run { findAll() }
+
+        createHtc(HTUDataBean(name="ssss"))
+
+        val HTUDataList = htuRepository?.run { findAll() } as MutableList<HTUData>
 
         val HTUDataBeanList = HTUDataList?.run {
             val HTUDataBeanList = mutableListOf<HTUDataBean>()
+
             this.forEach { HTUData ->
                 val HTUDataBean = HTUDataBean()
                 BeanUtils.copyProperties(HTUData, HTUDataBean)
@@ -70,6 +81,7 @@ open class HTUDataServiceRepository : HTUDataService() {
 
     /**
      * 検索(動的に検索条件を設定)
+     * todo Specificationが使えない
      * @param HTUDataBean
      * @return MyDataBeanList Veiwに表示する検索結果
      */

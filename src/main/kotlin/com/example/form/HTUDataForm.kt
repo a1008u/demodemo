@@ -1,31 +1,28 @@
 package com.example.form
 
+import com.example.bean.HTUDataBean
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
-import com.example.bean.HTUDataBean
+//import samples.bean.HTUDataBean
 
-class HTUDataForm{
+class HTUDataForm(
+        // 画面上の情報を取得---------------
+        var id: String = "",
+        var name: String = "",
+        var age: String= "",
+        var message: String= "",
 
-    // 画面上の情報を取得---------------
-    private val id: Int? = null
+        // 画面上で表示するList---------------
+        var htudatalist: MutableList<HTUDataBean>? = null,
 
-    private val name: String? = null
+        @NotNull
+        @Pattern(regexp = "Repository|JPQL|Criteria API")
+        var jpa: String = "Repository",
 
-    private val age: String? = null
+        @NotNull
+        @Pattern(regexp = "create|read|update|delete")
+        var sql: String = "read"
+        ){
 
-    private val message: String? = null
 
-    // 画面上で表示するList---------------
-    var htudatalist: MutableList<HTUDataBean>? = null
-
-    @NotNull
-    @Pattern(regexp = "Repository|JPQL|Criteria API")
-    var jpa: String = "Repository"
-        get() {return jpa}
-
-    @NotNull
-    @Pattern(regexp = "create|read|update|delete")
-    var sql: String = "read"
-        get() = sql
-
-}
+        }
