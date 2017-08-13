@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping
 //import samples.form.HTUDataForm
 //import samples.service.HTUDataServiceFactory
 import java.util.*
+import javax.validation.Valid
 
 @Controller
 class HTUController{
@@ -32,7 +33,7 @@ class HTUController{
     }
 
     // 2.ルート---------------------------------------------------------
-    @GetMapping("/htc")
+    @GetMapping("/htu")
     internal fun MyDataList(@ModelAttribute(value = "form")HTUDataForm: HTUDataForm,
                             mav: ModelAndView): ModelAndView {
         mav.gotoTop(HTUDataForm)
@@ -41,7 +42,7 @@ class HTUController{
 
     // 3.検索時に利用---------------------------------------------------------
     @PostMapping(value = "operate_form")
-    internal fun operate_form(@Validated @ModelAttribute("form") HTUDataForm: HTUDataForm,
+    internal fun operate_form(@Validated @ModelAttribute("form")HTUDataForm: HTUDataForm,
                               result: BindingResult,
                               mav: ModelAndView): ModelAndView {
 
@@ -58,14 +59,12 @@ class HTUController{
 		 */
 
         // Set Up
-        val HTUDataBean = HTUDataBean()
-        BeanUtils.copyProperties(HTUDataForm, HTUDataBean)
-        HTUDataBean.id = HTUDataForm.id.toInt()
+        val HTUDataBean = HTUDataForm.toBean()
 
-        val HTUDataService = HTUDataServiceFactory?.run { isolate(HTUDataForm)}
+        val HTUDataService = HTUDataServiceFactory?.run { isolate(HTUDataForm) }
         when (HTUDataForm.sql) {
 
-            "create" -> HTUDataService?.run{ createHtc(HTUDataBean) }
+            "create" -> HTUDataService?.run{ createHtu(HTUDataBean) }
 
             "read" -> {
                 HTUDataForm.into(HTUDataService?.run{ findMany(HTUDataBean)})
@@ -78,8 +77,9 @@ class HTUController{
             "delete" -> HTUDataService?.run{ delete(HTUDataBean)}
         }
 
-        return ModelAndView("redirect:/htc")
+        return ModelAndView("redirect:/htu")
     }
+
 
     // ex.画面表示項目---------------------------------------------------
     internal val RADIO_ITEMS_sql: MutableMap<String, String>
@@ -125,6 +125,13 @@ class HTUController{
     // ex.HTUDataFormの拡張---------------------------------------------------
     inline private fun HTUDataForm.into(value : MutableList<HTUDataBean>?) {
         this.htudatalist = value
+    }
+
+    inline private fun HTUDataForm.toBean(): HTUDataBean {
+        val HTUDataBean = com.example.bean.HTUDataBean()
+        BeanUtils.copyProperties(this, HTUDataBean)
+        HTUDataBean.id = if (id.isEmpty()) 0 else id.toInt()
+        return HTUDataBean
     }
 
 

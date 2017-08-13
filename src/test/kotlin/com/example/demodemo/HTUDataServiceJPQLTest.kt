@@ -17,10 +17,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 @RunWith(SpringJUnit4ClassRunner::class)
 @SpringBootTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-class HTUDataServiceTest{
-    @Autowired
-    private val HTUDataServiceRepository : HTUDataServiceRepository? = null
+class HTUDataServiceJPQLTest{
 
+    @Autowired
+    private val HTUDataServiceJPQL : HTUDataServiceRepository? = null
 
     /**
      * 【Crud】-------------------------------------------------------------------------
@@ -36,10 +36,10 @@ class HTUDataServiceTest{
         expected.message = "testuserは食べないよ"
 
         // ----------------------------- execute -----------------------------
-        HTUDataServiceRepository?.run { createHtu(expected)}
+        HTUDataServiceJPQL?.run { createHtu(expected)}
 
         val HTCDataBean: HTUDataBean = HTUDataBean(1)
-        val actual = HTUDataServiceRepository?.run {findById(HTCDataBean)}
+        val actual = HTUDataServiceJPQL?.run {findById(HTCDataBean)}
         expected.id = 1
 
         // ----------------------------- Verify -----------------------------
@@ -59,11 +59,11 @@ class HTUDataServiceTest{
         val age = "20"
         val message = "testuserは食べないよ"
 
-        HTUDataServiceRepository?.run { createHtu(HTUDataBean(1,name, age, message)) }
+        HTUDataServiceJPQL?.run { createHtu(HTUDataBean(1,name, age, message)) }
         val expected: HTUDataBean = HTUDataBean(1, name, age, message)
 
         // ----------------------------- execute -----------------------------
-        val actual = HTUDataServiceRepository?.run { findById(HTUDataBean(1)) }
+        val actual = HTUDataServiceJPQL?.run { findById(HTUDataBean(1)) }
 
         // ----------------------------- Verify -----------------------------
         actual?.forEach { ac -> assertThat(ac, be((SamePropertyValuesAs.samePropertyValuesAs(expected)))) }
@@ -78,13 +78,13 @@ class HTUDataServiceTest{
         val age = "20"
         val message = "testuserは食べないよ"
 
-        HTUDataServiceRepository?.run { createHtu(HTUDataBean(1,name, age, message)) }
-        HTUDataServiceRepository?.run { createHtu(HTUDataBean(2,name, age, message)) }
-        HTUDataServiceRepository?.run { createHtu(HTUDataBean(3,name, age, message)) }
-        HTUDataServiceRepository?.run { createHtu(HTUDataBean(4,name, age, message)) }
+        HTUDataServiceJPQL?.run { createHtu(HTUDataBean(1,name, age, message)) }
+        HTUDataServiceJPQL?.run { createHtu(HTUDataBean(2,name, age, message)) }
+        HTUDataServiceJPQL?.run { createHtu(HTUDataBean(3,name, age, message)) }
+        HTUDataServiceJPQL?.run { createHtu(HTUDataBean(4,name, age, message)) }
 
         //-----------------------------  execute -----------------------------
-        val actual = HTUDataServiceRepository?.run{ findAll() }
+        val actual = HTUDataServiceJPQL?.run{ findAll() }
 
         // ----------------------------- Verify -----------------------------
         assertThat(actual?.run { size }, be(4))
@@ -99,16 +99,16 @@ class HTUDataServiceTest{
         val age = "20"
         val message = "testuserは食べないよ"
 
-        HTUDataServiceRepository?.run { createHtu(HTUDataBean(1,name, age, message)) }
+        HTUDataServiceJPQL?.run { createHtu(HTUDataBean(1,name, age, message)) }
         val expected: HTUDataBean = HTUDataBean(1, name, age, message)
 
         // ----------------------------- execute -----------------------------
         val HTUDataBean1 = HTUDataBean(1, name, age, message)
         val HTUDataBean2 = HTUDataBean(0, name)
         val HTUDataBean3 = HTUDataBean(0, name, message)
-        val actual1 = HTUDataServiceRepository?.run { findMany(HTUDataBean1) }
-        val actual2 = HTUDataServiceRepository?.run { findMany(HTUDataBean2) }
-        val actual3 = HTUDataServiceRepository?.run { findMany(HTUDataBean3) }
+        val actual1 = HTUDataServiceJPQL?.run { findMany(HTUDataBean1) }
+        val actual2 = HTUDataServiceJPQL?.run { findMany(HTUDataBean2) }
+        val actual3 = HTUDataServiceJPQL?.run { findMany(HTUDataBean3) }
 
         // ----------------------------- Verify -----------------------------
         actual1?.forEach { ac -> assertThat(ac, be((SamePropertyValuesAs.samePropertyValuesAs(expected)))) }
@@ -130,8 +130,8 @@ class HTUDataServiceTest{
         val age = "20"
         val message = "testuserは食べないよ"
 
-        HTUDataServiceRepository?.run { createHtu(HTUDataBean(1, name, age, message)) }
-        val target = HTUDataServiceRepository?.run { findById(HTUDataBean(1)) }
+        HTUDataServiceJPQL?.run { createHtu(HTUDataBean(1, name, age, message)) }
+        val target = HTUDataServiceJPQL?.run { findById(HTUDataBean(1)) }
 
         val nameUpdate = "usertest"
         val ageUpdate = "30"
@@ -143,11 +143,11 @@ class HTUDataServiceTest{
             HTUDataBean.message = messageUpdate
         }
 
-        HTUDataServiceRepository?.run { update(target?.get(0) as HTUDataBean) }
+        HTUDataServiceJPQL?.run { update(target?.get(0) as HTUDataBean) }
 
         // ----------------------------- execute -----------------------------
         val expected = HTUDataBean(1, nameUpdate, ageUpdate, messageUpdate)
-        val actual = HTUDataServiceRepository?.run { findById(HTUDataBean(1)) }
+        val actual = HTUDataServiceJPQL?.run { findById(HTUDataBean(1)) }
 
         // ----------------------------- Verify -----------------------------
         actual?.forEach { ac -> assertThat(ac, be((SamePropertyValuesAs.samePropertyValuesAs(expected)))) }
@@ -166,11 +166,11 @@ class HTUDataServiceTest{
         val age = "20"
         val message = "testuserは食べないよ"
 
-        HTUDataServiceRepository?.run { createHtu(HTUDataBean(1, name, age, message)) }
+        HTUDataServiceJPQL?.run { createHtu(HTUDataBean(1, name, age, message)) }
 
         // ----------------------------- execute -----------------------------
-        HTUDataServiceRepository?.run { delete(HTUDataBean(1)) }
-        val actual = HTUDataServiceRepository?.run { findById(HTUDataBean(1)) }
+        HTUDataServiceJPQL?.run { delete(HTUDataBean(1)) }
+        val actual = HTUDataServiceJPQL?.run { findById(HTUDataBean(1)) }
 
         // ----------------------------- Verify -----------------------------
         assertThat(actual?.run { size }, be(1))

@@ -11,12 +11,19 @@ class HTUDataServiceFactory {
     @Autowired
     private val HTUDataServiceRepository : HTUDataServiceRepository? = null
 
+    @Autowired
+    private val HTUDataServiceCriteriaAPI : HTUDataServiceCriteriaAPI? = null
+
+    @Autowired
+    private val HTUDataServiceJPQL : HTUDataServiceJPQL? = null
+
     internal var HTUDataService: HTUDataService? = null
 
     fun isolate(HTUDataForm: HTUDataForm) : HTUDataService? {
 
         HTUDataService= when{
-            "JPQL" == HTUDataForm.jpa ->HTUDataServiceRepository
+            "JPQL" == HTUDataForm.jpa -> HTUDataServiceJPQL
+            "Criteria API" == HTUDataForm.jpa -> HTUDataServiceCriteriaAPI
             else -> HTUDataServiceRepository
         }
 

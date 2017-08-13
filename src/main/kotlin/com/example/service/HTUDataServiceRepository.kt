@@ -35,7 +35,7 @@ open class HTUDataServiceRepository : HTUDataService() {
      * HTUDataの登録(Crud)
      * @param HTUDataBean
      */
-    override fun createHtc(HTUDataBean: HTUDataBean): Unit {
+    override fun createHtu(HTUDataBean: HTUDataBean): Unit {
         val HTUData = HTUData()
         BeanUtils.copyProperties(HTUDataBean, HTUData)
         htuRepository?.run{ saveAndFlush(HTUData) }
@@ -61,7 +61,8 @@ open class HTUDataServiceRepository : HTUDataService() {
      */
     override fun findAll(): MutableList<HTUDataBean> {
 
-        createHtc(HTUDataBean(name="ssss"))
+        // test用
+        // createHtu(HTUDataBean(name="ssss"))
 
         val HTUDataList = htuRepository?.run { findAll() } as MutableList<HTUData>
 

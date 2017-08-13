@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.data.jpa.domain.Specifications
 import org.springframework.stereotype.Repository
+import org.springframework.util.StringUtils
+
 //import samples.bean.HTUDataBean
 //import samples.model.HTUData
 
@@ -26,34 +28,50 @@ class SpecificationsDetailHTUData{
                     .where(idContains(HTUDataBean.id))
                     .and(nameContains(HTUDataBean.name))
                     .and(ageContains(HTUDataBean.age))
-                    .and(messageContains(HTUDataBean.message)))} as MutableList<HTUData>
+                    .and(messageContains(HTUDataBean.message))
+        )} as MutableList<HTUData>
     }
 
-    private fun idContains(id: Int?): Specification<HTUData>? {
-        return id?.let {Specification<HTUData> {
-            root, query, cb -> cb.equal(root.get<HTUData>("id"), it) }
+    // TODO デフォルト値の処理を追加 →　null を返す
+    private fun idContains(id: Int): Specification<HTUData>? {
+        return if(id == 0) {
+            null
+        }else{
+            Specification<HTUData>() {
+                root, query, cb -> cb.equal(root.get<HTUData>("id"), id)
+            }
         }
     }
 
-    private fun nameContains(name: String?): Specification<HTUData>? {
-        return name?.let {Specification<HTUData> {
-            root, query, cb -> cb.equal(root.get<HTUData>("name"), it) }
+    // TODO デフォルト値の処理を追加 →　null を返す
+    private fun nameContains(name: String): Specification<HTUData>? {
+        return if(name == "") {
+            null
+        }else{
+            Specification<HTUData> {
+                root, query, cb -> cb.equal(root.get<HTUData>("name"), name)
+            }
         }
     }
 
-    private fun ageContains(age: String?): Specification<HTUData>? {
-        return age?.let {Specification<HTUData> {
-            root, query, cb -> cb.equal(root.get<HTUData>("age"), it) }
+    // TODO デフォルト値の処理を追加 →　null を返す
+    private fun ageContains(age: String): Specification<HTUData>? {
+        return if(age == "") {
+            null
+        }else{
+            Specification<HTUData> {
+                root, query, cb -> cb.equal(root.get<HTUData>("age"), age)
+            }
         }
     }
 
-    private fun messageContains(message: String?): Specification<HTUData>? {
-        return message?.let {Specification<HTUData> {
-            root, query, cb -> cb.equal(root.get<HTUData>("message"), it) }
+    // TODO デフォルト値の処理を追加 →　null を返す
+    private fun messageContains(message: String): Specification<HTUData>? = if(message == "") {
+        null
+    }else{
+        Specification<HTUData> {
+            root, query, cb -> cb.equal(root.get<HTUData>("message"), message)
         }
     }
-
-
-
 
 }

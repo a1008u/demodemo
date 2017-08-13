@@ -12,7 +12,7 @@ abstract class HTUDataService {
      * 新規作成
      * @param HTUDataaBean Veiw上のデータ
      */
-    abstract fun createHtc(HTUDataBean: HTUDataBean) :Unit
+    abstract fun createHtu(HTUDataBean: HTUDataBean) :Unit
 
 
     // 【cRud】--------------------------------------------
