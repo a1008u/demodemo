@@ -11,12 +11,11 @@ import com.example.repository.HTURepository
 import com.example.repository.SpecificationsDetailHTUData
 import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-//import samples.bean.HTUDataBean
-//import samples.model.HTUData
-//import samples.repository.HTURepository
-//import samples.repository.SpecificationsDetailHTUData
+
 
 /**
  * DBからのデータ取得と加工を行う.
@@ -52,6 +51,39 @@ open class HTUDataServiceRepository : HTUDataService() {
         val HTUDataBeanList = mutableListOf<HTUDataBean>()
         HTUDataBeanList.add(HTUDataBean)
         return HTUDataBeanList
+    }
+
+    /**
+     * nameを利用した検索(cRud)
+     * @param
+     * @return HTUDataBean
+     */
+    fun findByName(HTUDataBean: HTUDataBean): MutableList<HTUDataBean> {
+        val HTUData = htuRepository?.run{ findByname(HTUDataBean.name) }
+        HTUData?.let {  it -> BeanUtils.copyProperties(it, HTUDataBean) }
+        val HTUDataBeanList = mutableListOf<HTUDataBean>()
+        HTUDataBeanList.add(HTUDataBean)
+        return HTUDataBeanList
+    }
+
+    /**
+     * nameを利用した検索(cRud)
+     * @param
+     * @return HTUDataBean
+     */
+    fun findByNameList(HTUDataBean: HTUDataBean): MutableList<HTUDataBean> {
+        val HTUDataList = htuRepository?.run{ findBynamelist(HTUDataBean.name) }
+        val HTUDataBeanList = HTUDataList?.run {
+            val HTUDataBeanList = mutableListOf<HTUDataBean>()
+
+            this.forEach { HTUData ->
+                val HTUDataBean = HTUDataBean()
+                BeanUtils.copyProperties(HTUData, HTUDataBean)
+                HTUDataBeanList.add(HTUDataBean)
+            }
+            HTUDataBeanList
+        }
+        return HTUDataBeanList as MutableList<HTUDataBean> //TODO
     }
 
     /**

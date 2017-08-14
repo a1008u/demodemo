@@ -76,11 +76,7 @@ class HTUDataRepositoryJPQL(private val entityManager: EntityManager) {
 
             val query = entityManager.createQuery(buf.toString())
 
-            if (parameterMap.size > 0) {
-                for ((key, value) in parameterMap) {
-                    query.setParameter(key, value)
-                }
-            }
+            if (parameterMap.size > 0) parameterMap.forEach { key, value -> query.setParameter(key, value) }
 
             HTUDataList = query.resultList as MutableList<HTUData>?
 

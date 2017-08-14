@@ -117,6 +117,47 @@ class HTUDataServiceTest{
 
     }
 
+    @Test
+    @Throws(Exception::class)
+    fun Test2_3FindbyName() {
+
+        // ----------------------------- Set Up -----------------------------
+        val name = "testuser"
+        val age = "20"
+        val message = "testuserは食べないよ"
+
+        HTUDataServiceRepository?.run { createHtu(HTUDataBean(1, name, age, message)) }
+
+        //-----------------------------  execute -----------------------------
+        val actual = HTUDataServiceRepository?.run{ findByName(HTUDataBean(name = "testuser")) }
+
+        // ----------------------------- Verify -----------------------------
+        assertThat(actual?.run { size }, be(1))
+        actual?.run { forEach { e -> println("_____テスト結果_____ $e") } }
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun Test2_4FindbyNameList() {
+
+        // ----------------------------- Set Up -----------------------------
+        val name = "testuser"
+        val age = "20"
+        val message = "testuserは食べないよ"
+
+        HTUDataServiceRepository?.run { createHtu(HTUDataBean(1, name, "21", message)) }
+        HTUDataServiceRepository?.run { createHtu(HTUDataBean(2, name, "52", message)) }
+        HTUDataServiceRepository?.run { createHtu(HTUDataBean(3, name, "10", message)) }
+        HTUDataServiceRepository?.run { createHtu(HTUDataBean(4, name, age, message)) }
+
+        //-----------------------------  execute -----------------------------
+        val actual = HTUDataServiceRepository?.run{ findByNameList(HTUDataBean(name = name)) }
+
+        // ----------------------------- Verify -----------------------------
+        assertThat(actual?.run { size }, be(4))
+        actual?.run { forEach { e -> println("_____テスト結果_____ $e") } }
+    }
+
     /**
      * 【crUd】-------------------------------------------------------------------------
      * Updateのテスト
