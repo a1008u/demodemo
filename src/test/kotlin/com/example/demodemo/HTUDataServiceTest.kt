@@ -1,6 +1,8 @@
 package com.example.demodemo
 
 import com.example.bean.HTUDataBean
+import com.example.model.Category
+import com.example.repository.CategoryRepository
 import com.example.service.HTUDataServiceRepository
 import org.hamcrest.beans.SamePropertyValuesAs
 import org.junit.Assert.*
@@ -20,6 +22,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 class HTUDataServiceTest{
     @Autowired
     private val HTUDataServiceRepository : HTUDataServiceRepository? = null
+
+    @Autowired
+    private val CategoryRepository : CategoryRepository? = null
 
 
     /**
@@ -59,8 +64,13 @@ class HTUDataServiceTest{
         val age = "20"
         val message = "testuserは食べないよ"
 
-        HTUDataServiceRepository?.run { createHtu(HTUDataBean(1,name, age, message)) }
-        val expected: HTUDataBean = HTUDataBean(1, name, age, message)
+        val codeName ="test"
+
+        var aa = Category(0,codeName)
+        CategoryRepository?.save(aa)
+
+        HTUDataServiceRepository?.run { createHtu(HTUDataBean(1,name, age, message, Category(1,codeName))) }
+        val expected: HTUDataBean = HTUDataBean(1, name, age, message, Category(1,codeName))
 
         // ----------------------------- execute -----------------------------
         val actual = HTUDataServiceRepository?.run { findById(HTUDataBean(1)) }
