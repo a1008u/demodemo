@@ -1,9 +1,6 @@
 package com.example.repository
 
-import com.example.model.HTUData
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
-import org.springframework.data.domain.Sort
+import com.example.model.dynamicModel.HTUData
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.jpa.repository.Query
@@ -21,10 +18,13 @@ interface HTURepository : JpaRepository<HTUData, Int> , JpaSpecificationExecutor
 
     fun findByid(id: Int): HTUData
 
-    @Query("SELECT e FROM HTUData e WHERE name = :name")
-    fun findByname(@Param("name") name :String) : HTUData
+    @Query("SELECT e FROM HTUData e JOIN FETCH e.category WHERE name = :name")
+    fun findByname(@Param("name") name :String) :  MutableList<HTUData>
 
-    @Query("SELECT e FROM HTUData e WHERE name = :name" + " ORDER BY e.age")
+    /**
+     * N+1問題をJOIN FETCHで打開するパターン
+     */
+    @Query("SELECT e FROM HTUData e JOIN FETCH e.category WHERE name = :name" + " ORDER BY e.age")
     fun findBynamelist(@Param("name") name :String) : MutableList<HTUData>
 
 }

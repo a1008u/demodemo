@@ -1,7 +1,7 @@
 package com.example.form
 
-import com.example.bean.HTUDataBean
-import com.example.model.staticModel.Category
+
+import com.example.bean.HTUData2Bean
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 
@@ -11,7 +11,7 @@ import javax.validation.constraints.Pattern
  * kotlinのコンストラクタでは利用ではうまく処理することができない。
  *
  */
-class HTUDataForm{
+class HTUData2Form{
         // 画面上の情報を取得---------------
         @field:Pattern(regexp="[0-9]*")
         var id: String = ""
@@ -22,10 +22,8 @@ class HTUDataForm{
 
         var message: String= ""
 
-        var category: Category = Category()
-
         // 画面上で表示するList---------------
-        var htudatalist: MutableList<HTUDataBean>? = null
+        var htudatalist: MutableList<HTUData2Bean>? = null
 
         @NotNull
         @Pattern(regexp = "Repository|JPQL|Criteria API")
@@ -34,9 +32,5 @@ class HTUDataForm{
         @NotNull
         @Pattern(regexp = "create|read|update|delete")
         var sql: String = "read"
-
-        @NotNull
-        @Pattern(regexp = "men|women")
-        var gender: String = "men"
 
 }

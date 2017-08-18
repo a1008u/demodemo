@@ -6,13 +6,12 @@ package com.example.service
 
 
 import com.example.bean.HTUDataBean
-import com.example.model.HTUData
+import com.example.model.dynamicModel.HTUData
+import com.example.repository.CategoryRepository
 import com.example.repository.HTURepository
 import com.example.repository.SpecificationsDetailHTUData
 import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.domain.PageImpl
-import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -30,6 +29,9 @@ open class HTUDataServiceRepository : HTUDataService() {
     @Autowired
     private val SpecificationsDetailHTUData: SpecificationsDetailHTUData? = null
 
+    @Autowired
+    private val CategoryRepository : CategoryRepository? = null
+
     /**
      * HTUDataの登録(Crud)
      * @param HTUDataBean
@@ -37,6 +39,8 @@ open class HTUDataServiceRepository : HTUDataService() {
     override fun createHtu(HTUDataBean: HTUDataBean): Unit {
         val HTUData = HTUData()
         BeanUtils.copyProperties(HTUDataBean, HTUData)
+        HTUDataBean.category = CategoryRepository?.run {findOne(HTUDataBean.category?.code)}
+
         htuRepository?.run{ saveAndFlush(HTUData) }
     }
 
@@ -59,11 +63,19 @@ open class HTUDataServiceRepository : HTUDataService() {
      * @return HTUDataBean
      */
     fun findByName(HTUDataBean: HTUDataBean): MutableList<HTUDataBean> {
-        val HTUData = htuRepository?.run{ findByname(HTUDataBean.name) }
-        HTUData?.let {  it -> BeanUtils.copyProperties(it, HTUDataBean) }
-        val HTUDataBeanList = mutableListOf<HTUDataBean>()
-        HTUDataBeanList.add(HTUDataBean)
-        return HTUDataBeanList
+        val HTUDataList = htuRepository?.run{ findByname(HTUDataBean.name) }
+        val HTUDataBeanList = HTUDataList?.run {
+            val HTUDataBeanList = mutableListOf<HTUDataBean>()
+
+            this.forEach { HTUData ->
+                val HTUDataBean = HTUDataBean()
+                BeanUtils.copyProperties(HTUData, HTUDataBean)
+                HTUDataBeanList.add(HTUDataBean)
+            }
+            HTUDataBeanList
+        }
+        return HTUDataBeanList as MutableList<HTUDataBean> //TODO
+
     }
 
     /**

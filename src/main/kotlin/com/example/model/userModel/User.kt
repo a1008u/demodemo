@@ -1,4 +1,4 @@
-package com.example.model
+package com.example.model.userModel
 
 /**
  * Created by version1 on 2017/02/11.
@@ -14,11 +14,11 @@ import javax.persistence.*
  * @param sex 性別 ( 0・・・ 女  1・・・男)
  */
 @Entity
-@Table(name = "users2")
-data class User2(@Id @GeneratedValue var id: Int? = 0,
+@Table(name = "users")
+data class User(@Id @GeneratedValue var id: String? = "0",
                 @Column(nullable = false) var name: String = "",
-                @Column var age: Int? = 0,
-                @Column(nullable = false) var sex: Int = 0) {
+                @Column var age: String? = "0",
+                @Column(nullable = false) var sex: String = "0") {
 }
 
 

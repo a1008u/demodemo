@@ -1,11 +1,11 @@
-package com.example.service
+package com.example.service.userService
 
 /**
  * Created by version1 on 2017/02/11.
  */
 
-import com.example.model.User
-import com.example.repository.UserRepositoryMongo
+import com.example.model.userModel.User
+import com.example.repository.userRepository.UserRepositoryMongo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 //import samples.model.User

@@ -9,9 +9,8 @@ import com.example.model.staticModel.Category
  * @param age 年齢
  * @param message メッセージ
  */
-data class HTUDataBean(var id: Int = 0,
+data class HTUData2Bean(var id: Int = 0,
                    var name: String = "",
                    var age: String = "",
-                   var message: String = "どうかメッセージをください",
-                   var category: Category? = null) {
+                   var message: String = "どうかメッセージをください") {
 }

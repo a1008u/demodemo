@@ -3,6 +3,8 @@ package com.example.controller
 
 import com.example.bean.HTUDataBean
 import com.example.form.HTUDataForm
+import com.example.model.staticModel.Category
+import com.example.repository.CategoryRepository
 import com.example.service.HTUDataServiceFactory
 import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
@@ -13,11 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.servlet.ModelAndView
 import org.springframework.web.bind.annotation.GetMapping
-//import samples.bean.HTUDataBean
-//import samples.form.HTUDataForm
-//import samples.service.HTUDataServiceFactory
 import java.util.*
-import javax.validation.Valid
 
 @Controller
 class HTUController{
@@ -25,17 +23,21 @@ class HTUController{
     @Autowired
     internal var HTUDataServiceFactory: HTUDataServiceFactory? = null
 
+    @Autowired
+    private val CategoryRepository : CategoryRepository? = null
+
     // 1.リクエスト時に必ず呼び出す(Formの初期化)----------------------------
     @ModelAttribute(value = "form")
     internal fun setUphtudataform(): HTUDataForm {
         println("create HTUDataForm")
+        CategoryRepository?.save(Category(0, "Men"))
+        CategoryRepository?.save(Category(0, "Women"))
         return HTUDataForm()
     }
 
     // 2.ルート---------------------------------------------------------
     @GetMapping("/htu")
-    internal fun MyDataList(@ModelAttribute(value = "form")HTUDataForm: HTUDataForm,
-                            mav: ModelAndView): ModelAndView {
+    internal fun MyDataList(@ModelAttribute(value = "form")HTUDataForm: HTUDataForm, mav: ModelAndView): ModelAndView {
         mav.gotoTop(HTUDataForm)
         return mav
     }
@@ -106,6 +108,17 @@ class HTUController{
             }
         )
 
+    internal val RADIO_ITEMS_gender: MutableMap<String, String>
+        get() = Collections.unmodifiableMap(object : LinkedHashMap<String, String>() {
+            private val serialVersionUID = 1L
+
+            init {
+                put("men", "men")
+                put("women", "women")
+            }
+        }
+        )
+
     // ex.ModelAndViewの拡張--------------------------------------------------
     inline private fun ModelAndView.gotoTop(HTUDataForm: HTUDataForm): ModelAndView {
         HTUDataForm.into(HTUDataServiceFactory?.run { isolate(HTUDataForm)}?.run { findAll() })
@@ -119,6 +132,7 @@ class HTUController{
         addObject("htudatalist", HTUDataForm.htudatalist)
         addObject("radioItems_sql", RADIO_ITEMS_sql)
         addObject("radioItems_jpa", RADIO_ITEMS_jpa)
+        addObject("radioItems_gender", RADIO_ITEMS_gender)
         viewName = "MyDataList"
     }
 
@@ -128,9 +142,10 @@ class HTUController{
     }
 
     inline private fun HTUDataForm.toBean(): HTUDataBean {
-        val HTUDataBean = com.example.bean.HTUDataBean()
+        val HTUDataBean = HTUDataBean()
         BeanUtils.copyProperties(this, HTUDataBean)
         HTUDataBean.id = if (id.isEmpty()) 0 else id.toInt()
+        HTUDataBean.category?.apply{code = if(gender == "men") 1 else 2}
         return HTUDataBean
     }
 

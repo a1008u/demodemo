@@ -16,7 +16,7 @@
     
     <!-- ==============Contents============== -->
     <!-- ||||||||||||||Contents①|||||||||||| -->
-    <form th:action="@{/operate_form}" th:object="${form}" class="form" method="post">
+    <form th:action="@{/htu2_operate_form}" th:object="${form}" class="form" method="post">
                  
         <h2>MyData</h2>    
         
@@ -35,7 +35,7 @@
             <label for="sql" class="sqlTitle Balloon"><abbr title="required">*</abbr>SQL</label>
             <div class="crud">
                 <select class="sql" name="sql">                  
-                	<option th:each="item : ${radioItems_sql}" th:value="${item.value}" th:text="${item.key}" th:selected="${item.value} == *{sql}">readt</option>
+                	<option th:each="item : ${radioItems_sql}" th:value="${item.value}" th:text="${item.key}" th:selected="${item.value} == *{sql}">select</option>
                 </select>
             </div>
         	<span th:if="${#fields.hasErrors('sql')}" th:errors="*{sql}" th:errorclass="err">error!</span>
@@ -73,15 +73,6 @@
                 </div>
                 <div th:if="${#fields.hasErrors('message')}" th:errors="*{message}" th:errorclass="err"></div>
             </div>
-
-            <div class="divText" th:classappend="${#fields.hasErrors('gender')}? 'has-error has-feedback'">
-                <div class="crud">
-                    <select class="sql" name="gender">
-                        <option th:each="item : ${radioItems_gender}" th:value="${item.value}" th:text="${item.key}" th:selected="${item.value} == *{gender}">men</option>
-                    </select>
-                </div>
-                <span th:if="${#fields.hasErrors('sql')}" th:errors="*{gender}" th:errorclass="err">error!</span>
-            </div>
         </section>
 
         
@@ -100,7 +91,6 @@
                     <th>#</th>
                     <th>Name</th>
                     <th>Age</th>
-                    <th>Gender</th>
                     <th>Message</th>
                 </tr>
             </thead>
@@ -109,7 +99,6 @@
                     <td id="userno" th:text="${mydataBean.id}">11</td>
                     <td th:text="${mydataBean.name}">Akira</td>
                     <td th:text="${mydataBean.age}" id="ExpensesCharge">21</td>
-                    <td id="userno" th:text="${mydataBean.category.codeName}">men</td>
                     <td id="userno" th:text="${mydataBean.message}">04/17(木)</td>
                 </tr>
             </tbody>

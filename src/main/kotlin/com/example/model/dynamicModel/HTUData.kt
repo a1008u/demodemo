@@ -1,5 +1,6 @@
-package com.example.model
+package com.example.model.dynamicModel
 
+import com.example.model.staticModel.Category
 import javax.persistence.*
 
 /**
@@ -14,4 +15,6 @@ import javax.persistence.*
 data class HTUData(@Id @GeneratedValue var id: Int = 0,
                    @Column(nullable = false) var name: String = "",
                    @Column var age: String = "0",
-                   @Column var message: String = "どうかメッセージをください") {}
+                   @Column var message: String = "どうかメッセージをください",
+                   @ManyToOne(optional = false) @JoinColumn(name="categorycode") var category: Category? = null) {
+}

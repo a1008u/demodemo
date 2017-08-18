@@ -2,15 +2,12 @@ package com.example.repository
 
 
 import com.example.bean.HTUDataBean
-import com.example.model.HTUData
+import com.example.model.dynamicModel.HTUData
+import com.example.model.staticModel.Category
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.data.jpa.domain.Specifications
 import org.springframework.stereotype.Repository
-import org.springframework.util.StringUtils
-
-//import samples.bean.HTUDataBean
-//import samples.model.HTUData
 
 @Repository
 class SpecificationsDetailHTUData{
@@ -29,6 +26,7 @@ class SpecificationsDetailHTUData{
                     .and(nameContains(HTUDataBean.name))
                     .and(ageContains(HTUDataBean.age))
                     .and(messageContains(HTUDataBean.message))
+                    .and(HTUDataBean.category?.let { categorycodeContains(it) }) ?: null
         )} as MutableList<HTUData>
     }
 
@@ -71,6 +69,16 @@ class SpecificationsDetailHTUData{
     }else{
         Specification<HTUData> {
             root, query, cb -> cb.equal(root.get<HTUData>("message"), message)
+        }
+    }
+
+    // TODO デフォルト値の処理を追加 →　null を返す
+    private fun categorycodeContains(category: Category): Specification<HTUData>? = if(category.code == 0) {
+        null
+    }else{
+        Specification<HTUData> {
+            root, query, cb
+            -> cb.equal(root.get<HTUData>("category")?.get<Category>("code"), category.code)
         }
     }
 
