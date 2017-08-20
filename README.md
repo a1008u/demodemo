@@ -1,5 +1,5 @@
 # HowToUse JPA written in Kotlin
-[![CircleCI](https://img.shields.io/circleci/project/github/RedSparr0w/node-csgo-parser.svg)]()
+[![TeamCity (simple build status)](https://img.shields.io/teamcity/http/teamcity.jetbrains.com/s/bt345.svg)]()
 
 # Overview
 
@@ -10,7 +10,6 @@ and then, I wrote a SpringBoot Application written in Kotlin which use a Spring 
 ## Description
 
 U use Spring Data JPA and H2 DB. 
-
 
 ## Features
 
