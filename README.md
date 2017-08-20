@@ -14,7 +14,7 @@ U use Spring Data JPA and H2 DB.
 ## Features
 
 - U can understand how to write Kotlin and SpringBoot.
-- U can understand how to use Spring Data JPA
+- U can understand how to use Spring Data JPA.
 - U can understand how to use Spring Data JPA written in Kotlin.
 
 ## Requirement
