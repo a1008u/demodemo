@@ -1,5 +1,5 @@
 # HowToUse JPA written in Kotlin
-[![TeamCity (simple build status)](https://img.shields.io/teamcity/http/teamcity.jetbrains.com/s/bt345.svg)]()
+[![Shippable branch](https://img.shields.io/shippable/5444c5ecb904a4b21567b0ff/master.svg)]()
 
 # Overview
 
